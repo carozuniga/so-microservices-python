@@ -27,3 +27,8 @@ def user_data(username):
  else:
    
    return False
+
+def recently_logged():
+ grep = Popen (["lastlog","-t","1"],stdout=PIPE, stderr=PIPE)
+ list = Popen (["awk",'{print $1}'],stdin=grep.stdout, stdout=PIPE, stderr=PIPE).communicate()[0].split('\n')
+ return filter(None, list)

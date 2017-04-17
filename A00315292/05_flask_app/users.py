@@ -1,7 +1,7 @@
 from flask import Flask, abort, request
 import json
 
-from users_commands import get_all_users, add_user, remove_user, user_data
+from users_commands import get_all_users, add_user, remove_user, user_data, recently_logged
 
 app = Flask(__name__)
 api_url = '/v1.0'
@@ -48,15 +48,31 @@ def read_one_user(username):
     return 'the user does not exist', 400
   else:
     linea=user_data(username)
-    list = {'user: ', linea.split(':')[0] , 'password: ', linea.split(':')[1]}
+    
     return json.dumps(linea), 200
  
 
+
+
+@app.route(api_url+'/users/<string:username>',methods=['DELETE'])
+def delete_username(username):
+ if user_data(username)== False:
+  return 'the user does not exist',400
+ else:
+  remove_user(username);
+  return 'the user was deleted',200
+
+
+
 @app.route(api_url+'/users/recently_logged', methods =['GET'])
 def read_user_filter():
-  time =request.args.get("time")
-  group = request.args.get("group")
+
+# if recently_logged() == '':
+#  return 'No users has logged', 400
+# else:
+  return json.dumps (recently_logged()),200 
+
  
-  return group, 200
+
 if __name__ == "__main__":
   app.run(host='0.0.0.0',port=8080,debug='True')                                                   
