@@ -66,13 +66,28 @@ def delete_username(username):
 
 @app.route(api_url+'/users/recently_logged', methods =['GET'])
 def read_user_filter():
+ list = {}
+ list =recently_logged()
+ list.remove("Nombre")
 
-# if recently_logged() == '':
-#  return 'No users has logged', 400
-# else:
-  return json.dumps (recently_logged()),200 
-
+ if list:
+  return json.dumps (list),200 
+ else:
+  return 'no recently logged users',400 
  
+@app.route(api_url+'/users/recently_logged', methods =['POST'])
+def post_recently():
+ return "not found",404
+
+@app.route(api_url+'/users/recently_logged', methods =['PUT'])
+def put_recently():
+ return "not found",404
+
+@app.route(api_url+'/users/recently_logged', methods =['DELETE'])
+def delete_recently():
+ return "not found",404
+
+
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0',port=8080,debug='True')                                                   
