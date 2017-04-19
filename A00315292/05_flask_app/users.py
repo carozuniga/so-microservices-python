@@ -1,7 +1,7 @@
 from flask import Flask, abort, request
 import json
 
-from users_commands import get_all_users, add_user, remove_user, user_data, recently_logged
+from users_commands import get_all_users, add_user, remove_user, user_data, recently_logged, user_commands
 
 app = Flask(__name__)
 api_url = '/v1.0'
@@ -51,7 +51,13 @@ def read_one_user(username):
     
     return json.dumps(linea), 200
  
+@app.route(api_url+'/users/<string:username>', methods =['POST'])
+def post_user():
+ return "not found",404
 
+@app.route(api_url+'/users/<string:username>', methods =['PUT'])
+def put_user():
+ return "not found",404
 
 
 @app.route(api_url+'/users/<string:username>',methods=['DELETE'])
@@ -87,7 +93,30 @@ def put_recently():
 def delete_recently():
  return "not found",404
 
+@app.route(api_url+'/users/<string:username>/commands', methods =['GET'])
+def get_commands(username):
+
+
+ if user_data(username)== False:
+  return 'the user does not exist',400
+ else:
+  list = {}
+  list =user_commands(username);
+  return json.dumps (list),200 
+ 
+@app.route(api_url+'/users/<string:username>/commands', methods =['POST'])
+def post_commands():
+ return "not found",404
+
+@app.route(api_url+'/users/<string:username>/commands', methods =['PUT'])
+def put_commands():
+ return "not found",404
+
+@app.route(api_url+'/users/<string:username>/commands', methods =['DELETE'])
+def delete_commands():
+ return "not found",404
+
 
 
 if __name__ == "__main__":
-  app.run(host='0.0.0.0',port=8080,debug='True')                                                   
+  app.run(host='0.0.0.0',port=8080,debug='True')

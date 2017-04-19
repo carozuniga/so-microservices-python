@@ -35,10 +35,8 @@ def recently_logged():
 
 def user_commands(username):
  if username in get_all_users():
- # grep= Popen (["cd","/home/"+username],stdout=PIPE, stderr=PIPE)
- # grep2 = Popen (["cd",username],stdin=grep.stdout, stdout=PIPE, stderr=PIPE)
 
   list = Popen (["cat","/home/"+username+"/.bash_history"], stdout=PIPE, stderr=PIPE).communicate()[0].split('\n')
   return filter(None, list)
  else:
-  return 'the user does not exist',400
+  return False
